@@ -5,7 +5,7 @@ export const FloatBag = () => {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #2d6ab3;
+    background-color: #d10244;
     position: fixed;
     right: 1rem;
     bottom: 1rem;

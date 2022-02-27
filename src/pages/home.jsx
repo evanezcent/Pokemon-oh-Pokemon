@@ -14,7 +14,7 @@ export const Home = () => {
   `;
 
   const title = css`
-    color: #2d6ab3;
+    color: #d10244;
     font-weight: bold;
     text-align: center;
   `;

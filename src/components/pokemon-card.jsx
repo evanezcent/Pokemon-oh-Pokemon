@@ -10,16 +10,16 @@ export const PokemonCard = ({ data }) => {
     cursor: pointer;
     background-image: linear-gradient(
       45deg,
-      hsl(346deg 96% 89%) 0%,
-      hsl(337deg 88% 86%) 11%,
-      hsl(328deg 77% 83%) 22%,
-      hsl(316deg 64% 79%) 33%,
-      hsl(300deg 50% 75%) 44%,
-      hsl(281deg 61% 75%) 56%,
-      hsl(263deg 72% 75%) 67%,
-      hsl(245deg 83% 76%) 78%,
-      hsl(226deg 94% 71%) 89%,
-      hsl(207deg 100% 50%) 100%
+      hsl(162deg 50% 80%) 0%,
+      hsl(172deg 52% 80%) 11%,
+      hsl(181deg 53% 80%) 22%,
+      hsl(188deg 63% 81%) 33%,
+      hsl(194deg 71% 83%) 44%,
+      hsl(200deg 77% 85%) 56%,
+      hsl(206deg 80% 87%) 67%,
+      hsl(213deg 79% 88%) 78%,
+      hsl(222deg 73% 90%) 89%,
+      hsl(236deg 61% 91%) 100%
     );
     box-shadow: 0px 0px 10px 0px rgba(107, 147, 224, 0.75);
     -webkit-box-shadow: 0px 0px 10px 0px rgba(107, 147, 224, 0.75);
