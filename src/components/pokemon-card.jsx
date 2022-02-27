@@ -1,4 +1,6 @@
 import { css } from "@emotion/css";
+import { useEffect, useState } from "react";
+import { network } from "../utils/network";
 import { PokemonBadge } from "./pokemon-badge";
 
 export const PokemonCard = ({ data }) => {
@@ -36,6 +38,15 @@ export const PokemonCard = ({ data }) => {
     margin: auto;
   `;
 
+  const image_box_loading = css`
+    width: 70px;
+    height: 70px;
+    margin: auto;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    animation: 1.5s shine linear infinite;
+    background-size: 200% 100%;
+  `;
+
   const image = css`
     width: 100%;
     height: 100%;
@@ -45,6 +56,7 @@ export const PokemonCard = ({ data }) => {
   const title = css`
     text-align: center;
     font-size: 18px;
+    text-transform: capitalize;
   `;
 
   const badge_list = css`
@@ -55,24 +67,41 @@ export const PokemonCard = ({ data }) => {
     overflow: hidden;
   `;
 
+  const [pokemon, setPokemon] = useState();
+
+  useEffect(() => {
+    network.get(
+      `pokemon/${data.name}/`,
+      {},
+      (data) => {
+        setPokemon(data);
+      },
+      (err) => {},
+      () => {}
+    );
+
+    return;
+  }, [data]);
+
   return (
     <div className={card}>
-      <div className={image_box}>
-        <img
-          className={image}
-          src="https://static.wikia.nocookie.net/vsbattles/images/0/04/025Pikachu_XY_anime_4.png"
-          alt=""
-        />
-      </div>
-      <h1 className={title}>Bulbasaur</h1>
+      {pokemon ? (
+        <div className={image_box}>
+          <img className={image} src={pokemon.sprites.front_default} alt="" />
+        </div>
+      ) : (
+        <div className={image_box_loading}></div>
+      )}
+
+      <h1 className={title}>{data.name ?? ""}</h1>
       <div className={badge_list}>
-        <PokemonBadge />
-        <PokemonBadge />
-        <PokemonBadge />
-        <PokemonBadge />
-        <PokemonBadge />
-        <PokemonBadge />
-        <PokemonBadge />
+        {pokemon ? (
+          pokemon.types.map((item, idx) => (
+            <PokemonBadge pokemon_type={item.type.name} />
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

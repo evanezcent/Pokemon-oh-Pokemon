@@ -35,3 +35,9 @@ code {
     transform: scale(1);
   }
 }
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}

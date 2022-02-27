@@ -6,12 +6,15 @@ export const FloatBag = () => {
     height: 30px;
     border-radius: 50%;
     background-color: #2d6ab3;
-    position: absolute;
+    position: fixed;
     right: 1rem;
     bottom: 1rem;
     cursor: pointer;
     padding: 10px;
     overflow: hidden;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.75);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.75);
   `;
 
   const img = css`
