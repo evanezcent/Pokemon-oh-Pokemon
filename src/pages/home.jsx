@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FloatBag } from "../components/float-bag";
 import { PokemonCard } from "../components/pokemon-card";
 import { network } from "../utils/network";
+import { utils } from "../utils/utils";
 
 export const Home = () => {
   const p_list_style = css`
@@ -19,19 +20,64 @@ export const Home = () => {
   `;
 
   const [data, setData] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+  const [index, setIndex] = useState(20);
+  const [stopLoad, setStopLoad] = useState(false);
 
-  useEffect(() => {
+  const initData = () => {
     network.get(
       "pokemon",
       {},
-      (data) => {
-        console.log(data);
-        setData(data.results);
+      (res) => {
+        setData(res.results);
       },
       (err) => {},
       () => {}
     );
-  }, []);
+  };
+
+  const loadMore = () => {
+    network.get(
+      "pokemon",
+      { offset: index },
+      (res) => {
+        if (utils.checkEmptyValue(res.results)) {
+          setStopLoad(true);
+        } else {
+          setIsFetching(false);
+          setData([...data, ...res.results]);
+        }
+      },
+      (err) => {},
+      () => {}
+    );
+  };
+
+  const isScrolling = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      setIsFetching(true);
+    }
+  };
+
+  useEffect(() => {
+    initData();
+
+    if (!stopLoad) {
+      window.addEventListener("scroll", isScrolling);
+      return () => window.removeEventListener("scroll", isScrolling);
+    }
+  }, [stopLoad]);
+
+  useEffect(() => {
+    if (isFetching) {
+      setIndex(index + 20);
+
+      loadMore();
+    }
+  }, [isFetching]);
 
   return (
     <>
@@ -41,6 +87,13 @@ export const Home = () => {
       <div className={p_list_style}>
         {data.length > 0 ? (
           data.map((item, idx) => <PokemonCard key={idx} data={item} />)
+        ) : (
+          <></>
+        )}
+        {!isFetching ? (
+          <div style={{ marginTop: "1rem" }}>
+            <b>Loading more data . . .</b>
+          </div>
         ) : (
           <></>
         )}

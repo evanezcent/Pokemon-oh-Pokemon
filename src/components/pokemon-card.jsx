@@ -97,7 +97,7 @@ export const PokemonCard = ({ data }) => {
       <div className={badge_list}>
         {pokemon ? (
           pokemon.types.map((item, idx) => (
-            <PokemonBadge pokemon_type={item.type.name} />
+            <PokemonBadge key={idx} pokemon_type={item.type.name} />
           ))
         ) : (
           <></>
