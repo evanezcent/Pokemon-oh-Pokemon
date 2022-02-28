@@ -20,6 +20,8 @@ function DataProvider({ children, ...props }) {
     const newPayload = {
       id: pokemon.id,
       name: pokemon.name,
+      nick_name: pokemon.nick_name,
+      img: pokemon.sprites.front_default,
       types: pokemon.types.map((type) => type.type.name),
     };
 

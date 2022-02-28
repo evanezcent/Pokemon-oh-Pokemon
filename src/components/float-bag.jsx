@@ -1,11 +1,12 @@
 import { css } from "@emotion/css";
+import { Link } from "react-router-dom";
 
 export const FloatBag = () => {
   const style = css`
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #d10244;
+    background-color: white;
     position: fixed;
     right: 1rem;
     bottom: 1rem;
@@ -25,8 +26,8 @@ export const FloatBag = () => {
   `;
 
   return (
-    <div className={style}>
+    <Link to="my-pokemon" className={style}>
       <img className={img} src="images/pokemon-trainer.png" alt="evsct-empty" />
-    </div>
+    </Link>
   );
 };

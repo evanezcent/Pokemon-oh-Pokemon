@@ -1,10 +1,10 @@
 import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { network } from "../utils/network";
-import { PokemonBadge } from "./pokemon-badge";
+import { network } from "../../utils/network";
+import { PokemonBadge } from "../pokemon-badge";
 
-export const PokemonCard = ({ data }) => {
+export const MyPokemonCard = ({ data }) => {
   const card = css`
     border-radius: 6px;
     padding: 10px;
@@ -96,7 +96,7 @@ export const PokemonCard = ({ data }) => {
         <div className={image_box_loading}></div>
       )}
 
-      <h1 className={title}>{data.name ?? ""}</h1>
+      <h1 className={title}>{data.nick_name ?? ""}</h1>
       <div className={badge_list}>
         {pokemon ? (
           pokemon.types.map((item, idx) => (

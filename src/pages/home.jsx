@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
 import { FloatBag } from "../components/float-bag";
-import { PokemonCard } from "../components/pokemon-card";
+import { PokemonCard } from "../components/home/pokemon-card";
 import { network } from "../utils/network";
 import { utils } from "../utils/utils";
 
@@ -14,7 +14,7 @@ export const Home = () => {
   `;
 
   const title = css`
-    color: #d10244;
+    color: white;
     font-weight: bold;
     text-align: center;
   `;
