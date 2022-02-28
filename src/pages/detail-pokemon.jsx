@@ -212,7 +212,7 @@ export const DetailPokemon = ({ data }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   return (
     <>
