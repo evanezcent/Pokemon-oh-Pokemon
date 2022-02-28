@@ -1,5 +1,6 @@
 import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { network } from "../utils/network";
 import { PokemonBadge } from "./pokemon-badge";
 
@@ -30,6 +31,7 @@ export const PokemonCard = ({ data }) => {
       transform: scale(1.02);
       transition: all 300ms;
     }
+    text-decoration: none;
   `;
 
   const image_box = css`
@@ -57,6 +59,7 @@ export const PokemonCard = ({ data }) => {
     text-align: center;
     font-size: 18px;
     text-transform: capitalize;
+    color: #212129;
   `;
 
   const badge_list = css`
@@ -84,7 +87,7 @@ export const PokemonCard = ({ data }) => {
   }, [data]);
 
   return (
-    <div className={card}>
+    <Link to={`/pokemon/${data.name}`} className={card}>
       {pokemon ? (
         <div className={image_box}>
           <img className={image} src={pokemon.sprites.front_default} alt="" />
@@ -103,6 +106,6 @@ export const PokemonCard = ({ data }) => {
           <></>
         )}
       </div>
-    </div>
+    </Link>
   );
 };

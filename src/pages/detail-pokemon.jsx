@@ -1,4 +1,7 @@
 import { css } from "@emotion/css";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { network } from "../utils/network";
 
 export const DetailPokemon = ({ data }) => {
   const image_box = css`
@@ -9,11 +12,20 @@ export const DetailPokemon = ({ data }) => {
     padding-top: 20rem;
   `;
 
+  const image_loading = css`
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    animation: 1.5s shine linear infinite;
+    background-size: 200% 100%;
+  `;
+
   const image_box2 = css`
     width: 80px;
     height: 80px;
     margin: auto;
     padding-top: 6rem;
+    padding-bottom: 1rem;
     animation: scalling 1s ease-in-out infinite;
   `;
 
@@ -49,6 +61,20 @@ export const DetailPokemon = ({ data }) => {
     border: 1.5px solid rgba(0, 0, 0, 0.5);
     border-radius: 4px;
     padding: 5px;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+    cursor: url("/images/new-tab.png") 10 10, pointer;
+  `;
+
+  const box_skill_loading = css`
+    width: 181px;
+    height: 34px;
+    border-radius: 4px;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    animation: 1.5s shine linear infinite;
+    background-size: 200% 100%;
   `;
 
   const poke_name = css`
@@ -58,11 +84,20 @@ export const DetailPokemon = ({ data }) => {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     font-weight: 600;
+    text-transform: capitalize;
   `;
 
   const intro_box = css`
     position: absolute;
     top: 0;
+  `;
+
+  const poke_info_loading = css`
+    width: 145px;
+    height: 22px;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    animation: 1.5s shine linear infinite;
+    background-size: 200% 100%;
   `;
 
   const poke_info = css`
@@ -73,33 +108,79 @@ export const DetailPokemon = ({ data }) => {
     line-height: 140%;
   `;
 
-  const dummy = [
-    <div className={box_skill}>Skill 1</div>,
-    <div className={box_skill}>Skill 1</div>,
-    <div className={box_skill}>Skill 1</div>,
-    <div className={box_skill}>Skill 1</div>,
-    <div className={box_skill}>Skill 1</div>,
-    <div className={box_skill}>Skill 1</div>,
+  const ability_list = css`
+    text-transform: capitalize;
+  `;
+
+  const ability_list_loading = css`
+    width: 145px;
+    height: 22px;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    animation: 1.5s shine linear infinite;
+    background-size: 200% 100%;
+  `;
+
+  const loading_dummy = [
+    <div className={box_skill_loading}></div>,
+    <div className={box_skill_loading}></div>,
+    <div className={box_skill_loading}></div>,
+    <div className={box_skill_loading}></div>,
+    <div className={box_skill_loading}></div>,
+    <div className={box_skill_loading}></div>,
   ];
 
+  const { code } = useParams();
+  const [pokemon, setPokemon] = useState();
+  console.log(code);
+
+  const fetchData = () => {
+    network.get(
+      `pokemon/${code}/`,
+      {},
+      (res) => {
+        console.log(res);
+        setPokemon(res);
+      },
+      (err) => {},
+      () => {}
+    );
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <>
+    <div style={{ background: "#fefefb" }}>
       <div className={intro_box}>
-        <div className={poke_name}>Pikachu</div>
+        <div className={poke_name}>{code}</div>
 
         <div style={{ marginTop: "10px" }}>
-          <div className={poke_info}>Weight : 10 kg</div>
-          <div className={poke_info}>Height : 100 cm</div>
+          <div className={pokemon ? poke_info : poke_info_loading}>
+            Weight : {pokemon ? pokemon.weight / 10 : "-"} kg
+          </div>
+          <div className={pokemon ? poke_info : poke_info_loading}>
+            Height : {pokemon ? pokemon.height : 0}0 cm
+          </div>
         </div>
       </div>
       <div className={bg_pokemon}>
-        <div className={image_box}>
-          <img
-            className={image}
-            src="https://static.wikia.nocookie.net/vsbattles/images/0/04/025Pikachu_XY_anime_4.png"
-            alt=""
-          />
-        </div>
+        {pokemon ? (
+          <div className={image_box}>
+            <img
+              className={image}
+              src={
+                pokemon.sprites.versions["generation-v"]["black-white"].animated
+                  .front_default
+              }
+              alt=""
+            />
+          </div>
+        ) : (
+          <div className={image_box}>
+            <img src="" className={image_loading} alt="" />
+          </div>
+        )}
 
         <div className={image_box2}>
           <img className={image} src="/images/pokeball.png" alt="" />
@@ -112,13 +193,34 @@ export const DetailPokemon = ({ data }) => {
 
       <div style={{ padding: "10px" }}>
         <h3>Abilities</h3>
-        <div>Abilities1, Abilities2</div>
+        <div className={pokemon ? ability_list : ability_list_loading}>
+          {pokemon
+            ? pokemon.abilities.map(
+                (item, idx) => (idx === 0 ? "" : ", ") + item.ability.name
+              )
+            : "-"}
+        </div>
       </div>
 
       <div style={{ padding: "10px" }}>
         <h3>Moves</h3>
-        <div className={skill_list}>{dummy}</div>
+        {pokemon ? (
+          <div className={skill_list}>
+            {pokemon.moves.map((item, idx) => (
+              <a
+                className={box_skill}
+                href={`https://pokemondb.net/move/${item.move.name}`}
+                target="_blank"
+                key={idx}
+              >
+                <div>{item.move.name}</div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div className={skill_list}>{loading_dummy}</div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
