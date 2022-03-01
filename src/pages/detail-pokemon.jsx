@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { network } from "../utils/network";
@@ -53,11 +53,33 @@ export const DetailPokemon = ({ data }) => {
     background-repeat: no-repeat;
     backkgroud-position: center;
     background-size: cover;
+    @media (min-width: 1025px) {
+      mask-image: linear-gradient(
+        transparent,
+        black 0%,
+        black 80%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 0%,
+        black 80%,
+        transparent 100%
+      );
+      height: 768px;
+    }
   `;
 
   const skill_list = css`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 500px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     gap: 10px;
   `;
 
@@ -95,6 +117,7 @@ export const DetailPokemon = ({ data }) => {
   const intro_box = css`
     position: absolute;
     top: 2rem;
+    z-index: 1;
   `;
 
   const poke_info_loading = css`
@@ -139,6 +162,9 @@ export const DetailPokemon = ({ data }) => {
   const [pokemon_name, setPokemonName] = useState();
   const [showModal, setShowModal] = useState(false);
   const { dataPokemon, addPokemonData } = useContextData();
+  const myRef = useRef(null);
+
+  const executeScroll = () => myRef.current.scrollIntoView(3000);
 
   const fetchData = () => {
     network.get(
@@ -268,12 +294,12 @@ export const DetailPokemon = ({ data }) => {
           </div>
         </div>
 
-        <div className={image_box3}>
+        <div className={image_box3} onClick={executeScroll}>
           <img className={image} src="/images/scroll.png" alt="" />
         </div>
 
         <div style={{ padding: "10px" }}>
-          <h3>Abilities</h3>
+          <h3 ref={myRef}>Abilities</h3>
           <div className={pokemon ? ability_list : ability_list_loading}>
             {pokemon
               ? pokemon.abilities.map(
