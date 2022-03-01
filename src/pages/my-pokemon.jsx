@@ -23,7 +23,11 @@ export const MyPokemon = () => {
     text-align: center;
   `;
 
-  const { dataPokemon } = useContextData();
+  const { dataPokemon, releasePokemon } = useContextData();
+
+  const handleReleasePokemon = (e, idx) => {
+    releasePokemon(idx);
+  };
 
   return (
     <>
@@ -33,7 +37,11 @@ export const MyPokemon = () => {
       <div className={p_list_style}>
         {dataPokemon.length > 0 ? (
           dataPokemon.map((item, idx) => (
-            <MyPokemonCard key={idx} data={item} />
+            <MyPokemonCard
+              key={idx}
+              data={item}
+              callbackDelete={() => handleReleasePokemon(idx)}
+            />
           ))
         ) : (
           <></>

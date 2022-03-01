@@ -32,6 +32,7 @@ export const DetailPokemon = ({ data }) => {
     padding-top: 6rem;
     padding-bottom: 1rem;
     animation: scalling 1s ease-in-out infinite;
+    cursor: pointer;
   `;
 
   const image_box3 = css`

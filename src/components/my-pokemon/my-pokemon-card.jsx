@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { network } from "../../utils/network";
 import { PokemonBadge } from "../pokemon-badge";
+import { FaTrash } from "react-icons/fa";
 
-export const MyPokemonCard = ({ data }) => {
+export const MyPokemonCard = ({ data, callbackDelete }) => {
   const card = css`
     border-radius: 6px;
     padding: 10px;
@@ -32,6 +33,7 @@ export const MyPokemonCard = ({ data }) => {
       transition: all 300ms;
     }
     text-decoration: none;
+    position: relative;
   `;
 
   const image_box = css`
@@ -68,6 +70,22 @@ export const MyPokemonCard = ({ data }) => {
     justify-content: center;
     max-height: 42px;
     overflow: hidden;
+    text-decoration: none;
+  `;
+
+  const delete_style = css`
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: red;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `;
 
   const [pokemon, setPokemon] = useState();
@@ -87,25 +105,32 @@ export const MyPokemonCard = ({ data }) => {
   }, [data]);
 
   return (
-    <Link to={`/pokemon/${data.name}`} className={card}>
-      {pokemon ? (
-        <div className={image_box}>
-          <img className={image} src={pokemon.sprites.front_default} alt="" />
-        </div>
-      ) : (
-        <div className={image_box_loading}></div>
-      )}
-
-      <h1 className={title}>{data.nick_name ?? ""}</h1>
-      <div className={badge_list}>
+    <div className={card}>
+      <Link to={`/pokemon/${data.name}`}>
         {pokemon ? (
-          pokemon.types.map((item, idx) => (
-            <PokemonBadge key={idx} pokemon_type={item.type.name} />
-          ))
+          <div className={image_box}>
+            <img className={image} src={pokemon.sprites.front_default} alt="" />
+          </div>
         ) : (
-          <></>
+          <div className={image_box_loading}></div>
         )}
+      </Link>
+      <div className={delete_style} onClick={callbackDelete}>
+        <FaTrash />
       </div>
-    </Link>
+
+      <Link to={`/pokemon/${data.name}`}>
+        <h1 className={title}>{data.nick_name ?? ""}</h1>
+        <div className={badge_list}>
+          {pokemon ? (
+            pokemon.types.map((item, idx) => (
+              <PokemonBadge key={idx} pokemon_type={item.type.name} />
+            ))
+          ) : (
+            <></>
+          )}
+        </div>
+      </Link>
+    </div>
   );
 };
