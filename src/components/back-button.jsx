@@ -16,7 +16,7 @@ export const BackButton = () => {
     font-weight: bold;
     color: white;
     text-decoration: none;
-    z-index: 1;
+    z-index: 10;
   `;
 
   const img = css`
