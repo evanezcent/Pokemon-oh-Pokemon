@@ -61,17 +61,13 @@ export const Home = () => {
   const isScrolling = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
+        document.documentElement.offsetHeight ||
+      window.innerHeight + document.documentElement.scrollTop + 0.5 ===
+        document.documentElement.offsetHeight
     ) {
       setIsFetching(true);
     }
   };
-
-  useEffect(() => {
-    if (isFetching) {
-      loadMore();
-    }
-  });
 
   useEffect(() => {
     initData();
@@ -81,6 +77,12 @@ export const Home = () => {
       return () => window.removeEventListener("scroll", isScrolling);
     }
   }, [stopLoad]);
+
+  useEffect(() => {
+    if (isFetching) {
+      loadMore();
+    }
+  });
 
   return (
     <>
@@ -94,7 +96,7 @@ export const Home = () => {
           <></>
         )}
         {!isFetching ? (
-          <div style={{ marginTop: "1rem" }}>
+          <div style={{ color: "white", marginTop: "1rem" }}>
             <b>Loading more data . . .</b>
           </div>
         ) : (

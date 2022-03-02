@@ -171,8 +171,7 @@ export const DetailPokemon = ({ data }) => {
     network.get(
       `pokemon/${code}/`,
       {},
-      (res) => {
-        console.log(res);
+      (res) => { 
         setPokemon(res);
       },
       (err) => {},
@@ -184,8 +183,7 @@ export const DetailPokemon = ({ data }) => {
     let chance = Math.random();
     let treshold = 0.5;
 
-    if (chance >= treshold) {
-      console.log(`${code} Tertangkap`);
+    if (chance >= treshold) { 
       toast.success(`${code} have been catch!`, {
         theme: "dark",
         position: "top-center",
@@ -198,8 +196,7 @@ export const DetailPokemon = ({ data }) => {
       });
 
       setShowModal(true);
-    } else {
-      console.log(`${code} gagal ditangkap`);
+    } else { 
       toast.error(`Whoops!, ${code} escape and runaway!`, {
         theme: "dark",
         position: "top-center",
