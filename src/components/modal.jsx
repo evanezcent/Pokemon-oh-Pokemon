@@ -11,6 +11,7 @@ export const ModalComponent = ({
     height: 100%;
     position: fixed;
     z-index: 1;
+    left: 0;
   `;
 
   const form_style = css`
