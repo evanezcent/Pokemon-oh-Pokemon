@@ -30,8 +30,11 @@ function DataProvider({ children, ...props }) {
   };
 
   const releasePokemon = (idx) => {
+    console.log(idx)
     const tempData = [...dataPokemon];
     tempData.splice(idx, 1);
+    
+    console.log(tempData)
 
     setAllData(tempData);
   };

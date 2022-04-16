@@ -167,23 +167,11 @@ export const DetailPokemon = ({ data }) => {
 
   const executeScroll = () => myRef.current.scrollIntoView(3000);
 
-  const fetchData = () => {
-    network.get(
-      `pokemon/${code}/`,
-      {},
-      (res) => { 
-        setPokemon(res);
-      },
-      (err) => {},
-      () => {}
-    );
-  };
-
   const catchPokemon = () => {
     let chance = Math.random();
     let treshold = 0.5;
 
-    if (chance >= treshold) { 
+    if (chance >= treshold) {
       toast.success(`${code} have been catch!`, {
         theme: "dark",
         position: "top-center",
@@ -196,7 +184,7 @@ export const DetailPokemon = ({ data }) => {
       });
 
       setShowModal(true);
-    } else { 
+    } else {
       toast.error(`Whoops!, ${code} escape and runaway!`, {
         theme: "dark",
         position: "top-center",
@@ -235,8 +223,20 @@ export const DetailPokemon = ({ data }) => {
   };
 
   useEffect(() => {
+    const fetchData = () => {
+      network.get(
+        `pokemon/${code}/`,
+        {},
+        (res) => {
+          setPokemon(res);
+        },
+        (err) => {},
+        () => {}
+      );
+    };
+
     fetchData();
-  });
+  }, [code]);
 
   return (
     <>

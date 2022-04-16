@@ -25,7 +25,7 @@ export const MyPokemon = () => {
 
   const { dataPokemon, releasePokemon } = useContextData();
 
-  const handleReleasePokemon = (e, idx) => {
+  const handleReleasePokemon = (idx) => {
     releasePokemon(idx);
   };
 
